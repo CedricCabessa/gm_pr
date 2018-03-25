@@ -67,23 +67,21 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.humanize',
-    'djcelery',
     'import_export',
     'gm_pr',
     'web',
     'bot',
 )
 
-MIDDLEWARE_CLASSES = (
+MIDDLEWARE = [
+    'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'django.middleware.security.SecurityMiddleware',
-)
+]
 
 ROOT_URLCONF = 'gm_pr.urls'
 
@@ -138,6 +136,8 @@ STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR+'/web/static/'
 
 CELERY_ACCEPT_CONTENT = ['json', 'yaml', 'pickle']
+CELERY_TASK_SERIALIZER = 'pickle'
+CELERY_RESULT_SERIALIZER = 'pickle'
 
 CELERY_IMPORTS = ("bot.tasks", "gm_pr.prfetcher")
 BROKER_URL = config.get('backend', 'BROKER_URL',
